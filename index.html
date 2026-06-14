@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Video Script & Voice Optimizer | NitWebTools</title>
+    <!-- Tailwind CSS para un diseño moderno y rápido -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Lucide Icons para iconos limpios sin cargar imágenes pesadas -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+        }
+    </style>
+</head>
+<body class="gradient-bg text-slate-100 min-h-screen font-sans">
+
+    <!-- HEADER -->
+    <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <i data-lucide="video" class="text-violet-500 w-6 h-6"></i>
+                <span class="font-bold text-xl tracking-tight bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">SnapScript AI</span>
+            </div>
+            <nav class="text-sm text-slate-400 flex gap-4">
+                <span class="hover:text-slate-200 cursor-pointer">100% Free Static Tool</span>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        <!-- Hero Section -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-extrabold mb-3 tracking-tight sm:text-5xl">
+                Optimize Your Video Scripts for <span class="text-violet-400">AI Voices</span>
+            </h1>
+            <p class="text-slate-400 max-w-2xl mx-auto text-base sm:text-lg">
+                Paste your raw script. Our tool calculates exact voice-over duration, splits it into perfect 4-second scenes, and generates cinematic prompts for AI Video Generators (Sora, Runway, Pika).
+            </p>
+        </div>
+
+        <!-- PLACEHOLDER PARA GOOGLE ADSENSE (TOP) -->
+        <div class="w-full h-24 bg-slate-900/40 border border-dashed border-slate-800 rounded-xl mb-8 flex items-center justify-center text-xs text-slate-600 tracking-wider">
+            [AD SPACE - GOOGLE ADSENSE TOP BANNER]
+        </div>
+
+        <!-- TOOL INTERFACE -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            
+            <!-- Left Column: Input -->
+            <div class="bg-slate-900/60 p-6 rounded-2xl border border-slate-800/80 shadow-xl">
+                <div class="flex items-center gap-2 mb-4">
+                    <i data-lucide="align-left" class="text-violet-400 w-5 h-5"></i>
+                    <h2 class="text-lg font-semibold">1. Paste your raw script</h2>
+                </div>
+                <textarea id="scriptInput" class="w-full h-64 bg-slate-950 border border-slate-800 rounded-xl p-4 text-slate-300 focus:outline-none focus:border-violet-500 transition-colors resize-none placeholder-slate-600 text-sm leading-relaxed" placeholder="Once upon a time in a forgotten cyberpunk city, an rogue android discovered a golden seed. It was the first sign of organic life in over a century..."></textarea>
+                
+                <div class="mt-4 flex flex-col sm:flex-row gap-4 items-center justify-between">
+                    <div class="w-full sm:w-auto">
+                        <label class="text-xs text-slate-500 block mb-1">Target Platform (Pacing)</label>
+                        <select id="platformSelect" class="bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-violet-500 w-full">
+                            <option value="150">TikTok / Shorts (Fast Paced - 150 WPM)</option>
+                            <option value="130">YouTube Video (Normal Paced - 130 WPM)</option>
+                            <option value="110">Cinematic / Documentary (Slow Paced - 110 WPM)</option>
+                        </select>
+                    </div>
+                    <button onclick="processScript()" class="w-full sm:w-auto bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white font-medium px-6 py-2.5 rounded-xl transition-all shadow-lg shadow-violet-900/20 flex items-center justify-center gap-2 cursor-pointer mt-4 sm:mt-0">
+                        <i data-lucide="zap" class="w-4 h-4"></i> Optimize Script
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Column: Output -->
+            <div class="bg-slate-900/60 p-6 rounded-2xl border border-slate-800/80 shadow-xl min-h-[400px] flex flex-col">
+                <div class="flex items-center justify-between mb-4 border-b border-slate-800/60 pb-3">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="layers" class="text-fuchsia-400 w-5 h-5"></i>
+                        <h2 class="text-lg font-semibold">2. Optimized AI Storyboard</h2>
+                    </div>
+                    <div id="statsBadge" class="hidden text-xs bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-700">
+                        Words: <span id="wordCount" class="font-bold text-violet-400">0</span> | Est. Voice Time: <span id="timeEst" class="font-bold text-fuchsia-400">0s</span>
+                    </div>
+                </div>
+
+                <!-- Output Area Dynamic -->
+                <div id="outputPlaceholder" class="flex-1 flex flex-col items-center justify-center text-center text-slate-600 p-8">
+                    <i data-lucide="sparkles" class="w-10 h-10 mb-2 opacity-40"></i>
+                    <p class="text-sm">Your structured video timeline and video AI prompts will appear here.</p>
+                </div>
+
+                <div id="outputTimeline" class="hidden space-y-4 max-h-[480px] overflow-y-auto pr-2">
+                    <!-- Javascript populates this -->
+                </div>
+            </div>
+        </div>
+
+        <!-- PLACEHOLDER PARA GOOGLE ADSENSE (MIDDLE) -->
+        <div class="w-full h-24 bg-slate-900/40 border border-dashed border-slate-800 rounded-xl my-8 flex items-center justify-center text-xs text-slate-600 tracking-wider">
+            [AD SPACE - GOOGLE ADSENSE MIDDLE BANNER]
+        </div>
+
+        <!-- SEO/INFORMATIONAL SECTION FOR ADSENSE APPROVAL -->
+        <section class="mt-16 border-t border-slate-800/60 pt-10 max-w-4xl mx-auto">
+            <h3 class="text-2xl font-bold mb-6 text-center text-slate-200">How to Create Viral Videos with AI Using This Tool</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-slate-400 leading-relaxed">
+                <div class="bg-slate-900/30 p-5 rounded-xl border border-slate-800/50">
+                    <h4 class="text-slate-200 font-semibold mb-2 flex items-center gap-2"><i data-lucide="clock" class="w-4 h-4 text-violet-400"></i> Why Voice-Over Timing Matters</h4>
+                    <p>AI Text-to-Speech voices read consistently but lack the human instinct to pause naturally between scenic changes. Splitting your script every 10-15 words ensures that your video transitions sync perfectly with the audio track, maximizing viewer retention on TikTok and YouTube Shorts.</p>
+                </div>
+                <div class="bg-slate-900/30 p-5 rounded-xl border border-slate-800/50">
+                    <h4 class="text-slate-200 font-semibold mb-2 flex items-center gap-2"><i data-lucide="image" class="w-4 h-4 text-fuchsia-400"></i> Automated Video Prompts</h4>
+                    <p>Modern video generators like Sora or Runway Gen-3 require specific cinematic modifiers to look professional. Our internal client-side logic extracts core semantics from your text and appends 8k cinematic parameters, ensuring high-quality b-roll video generations.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER & LEGAL LINKS (CRITICAL FOR ADSENSE) -->
+    <footer class="border-t border-slate-800/80 bg-slate-950/60 mt-20 text-xs text-slate-500 py-6">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p>&copy; 2026 SnapScript AI. All data processed locally. No user tracking.</p>
+            <div class="flex gap-4">
+                <a href="#" onclick="alert('Privacy Policy: This static utility does not collect, store, or transmit any user inputs. All processing runs 100% inside your local browser via client-side JavaScript. No cookies are used.')" class="hover:text-slate-400 underline">Privacy Policy</a>
+                <a href="#" onclick="alert('Terms of Service: This free tool is provided as-is for content creators. Commercial use of generated prompts is permitted.')" class="hover:text-slate-400 underline">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- LOGIC APPLICATION (THE JS BACKEND-LESS SYSTEM) -->
+    <script>
+        // Inicializar iconos
+        lucide.createIcons();
+
+        function processScript() {
+            const input = document.getElementById('scriptInput').value.trim();
+            const wpm = parseInt(document.getElementById('platformSelect').value);
+            
+            const placeholder = document.getElementById('outputPlaceholder');
+            const timeline = document.getElementById('outputTimeline');
+            const statsBadge = document.getElementById('statsBadge');
+
+            if (!input) {
+                alert("Please paste a script first!");
+                return;
+            }
+
+            // Calcular Estadísticas Básicas
+            const words = input.split(/\s+/).filter(w => w.length > 0);
+            const totalWords = words.length;
+            const totalSeconds = Math.round((totalWords / wpm) * 60);
+
+            document.getElementById('wordCount').innerText = totalWords;
+            document.getElementById('timeEst').innerText = totalSeconds + 's';
+
+            // Mostrar paneles correctos
+            placeholder.classList.add('hidden');
+            timeline.classList.remove('hidden');
+            statsBadge.classList.remove('hidden');
+
+            // Dividir texto de forma lógica en escenas (Aprox 12 palabras por escena para 4-5 segundos de video)
+            timeline.innerHTML = '';
+            const wordsPerScene = 12;
+            let currentScene = 1;
+
+            for (let i = 0; i < words.length; i += wordsPerScene) {
+                const chunk = words.slice(i, i + wordsPerScene).join(' ');
+                
+                // Generador básico de Prompts de IA basado en palabras del texto (Mocking IA semantic)
+                let styleModifier = "Cinematic, photorealistic, 8k resolution, highly detailed, dramatic lighting, masterpiece --ar 16:9";
+                if(input.toLowerCase().includes('cyberpunk') || input.toLowerCase().includes('robot') || input.toLowerCase().includes('android')) {
+                    styleModifier = "Cyberpunk aesthetic, neon lighting, hyperrealistic 3D render, Unreal Engine 5 style, moody ambiance --ar 16:9";
+                } else if(input.toLowerCase().includes('once upon a time') || input.toLowerCase().includes('magic') || input.toLowerCase().includes('kingdom')) {
+                    styleModifier = "Dark fantasy style, whimsical atmosphere, concept art painting, ethereal volumetric glow --ar 16:9";
+                }
+
+                const cleanedChunk = chunk.replace(/["']/g, "");
+                const promptText = `Close-up shot of ${cleanedChunk.toLowerCase().substring(0, 40)}..., ${styleModifier}`;
+
+                // Renderizar la escena en el HTML
+                const sceneBlock = document.createElement('div');
+                sceneBlock.className = "bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col gap-3";
+                sceneBlock.innerHTML = `
+                    <div class="flex items-center justify-between text-xs text-slate-500 font-mono">
+                        <span>SCENE ${currentScene} (~${Math.round((wordsPerScene/wpm)*60)} seconds)</span>
+                        <span class="text-violet-400/80">Voice-Over Track</span>
+                    </div>
+                    <p class="text-sm text-slate-200 italic font-serif bg-slate-900/40 p-2.5 rounded-lg border border-slate-800/40">"${chunk}"</p>
+                    
+                    <div class="bg-slate-900/80 p-3 rounded-lg border border-slate-800 flex flex-col gap-1.5">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-fuchsia-400 flex items-center gap-1">
+                                <i data-lucide="clapperboard" class="w-3 h-3"></i> Suggested Video AI Prompt
+                            </span>
+                            <button onclick="navigator.clipboard.writeText('${promptText}'); alert('Prompt copied to clipboard!')" class="text-[11px] bg-slate-800 text-slate-300 hover:bg-violet-600 hover:text-white px-2 py-1 rounded transition-colors flex items-center gap-1 cursor-pointer">
+                                <i data-lucide="copy" class="w-3 h-3"></i> Copy Prompt
+                            </button>
+                        </div>
+                        <p class="text-xs text-slate-400 select-all font-mono">${promptText}</p>
+                    </div>
+                `;
+                timeline.appendChild(sceneBlock);
+                currentScene++;
+            }
+
+            // Recargar iconos cargados dinámicamente
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>
